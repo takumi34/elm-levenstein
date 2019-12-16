@@ -51,16 +51,13 @@ leven s1 s2 =
 type Msg
   = Text1 String
   | Text2 String
-  | Result Int
 
 update msg model =
   case msg of
     Text1 text1 ->
-      { model | text1 = text1 }
+      { model | text1 = text1, result = leven model.text1 model.text2  }
     Text2 text2 ->
-      { model | text2 = text2 }
-    Result result ->
-      { model | result = leven model.text1 model.text2 }
+      { model | text2 = text2}
 
 
 -- VIEW
@@ -70,5 +67,5 @@ view model =
   div []
     [ input [ value model.text1, onInput Text1 ] []
     , input [ value model.text2, onInput Text2 ] []
-    , div [] [ text ( String.fromInt model.result)]
+    , div [] [ text (String.fromInt (leven model.text1 model.text2))]
     ]
