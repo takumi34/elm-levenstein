@@ -1,0 +1,24 @@
+h1 {
+  text-align: center;
+}
+
+div {
+  text-align: center;
+}
+textarea {
+  width: 250px;
+  height: 7em;
+  font-size: 20pt;
+}
+div.element{
+  display:inline-flex
+}
+.box1 {
+}
+.box2 {
+}
+
+.result {
+  font-size: 150%;
+  color: red;
+}

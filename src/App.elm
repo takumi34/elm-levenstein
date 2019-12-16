@@ -65,7 +65,17 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div []
-    [ input [ value model.text1, onInput Text1 ] []
-    , input [ value model.text2, onInput Text2 ] []
-    , div [] [ text (String.fromInt (leven model.text1 model.text2))]
+    [ h1 [] [text "Levenstein Distance"],
+      div [class "element"]
+      [
+        div [class "box1"]
+        [
+          textarea [ value model.text1, onInput Text1 ] []
+        ],
+        div [class "box2"]
+        [
+        textarea [ value model.text2, onInput Text2 ] []
+        ]
+      ] 
+    , div [class "result"] [ text (String.fromInt (leven model.text1 model.text2))]
     ]
