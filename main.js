@@ -5334,7 +5334,7 @@ var $author$project$App$view = function (model) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						$elm$html$Html$text('Levenstein Distance')
+						$elm$html$Html$text('Levenshtein Distance')
 					])),
 				A2(
 				$elm$html$Html$div,

@@ -65,7 +65,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div []
-    [ h1 [] [text "Levenstein Distance"],
+    [ h1 [] [text "Levenshtein Distance"],
       div [class "element"]
       [
         div [class "box1"]
