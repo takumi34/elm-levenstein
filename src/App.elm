@@ -21,12 +21,13 @@ main =
 type alias Model =
   { text1 : String
   , text2 : String
+  , result : Int
   }
 
 
 init : Model
 init =
-  Model "" "" 
+  Model "" "" 0
 
 -- Levenstein
 leven: String -> String -> Int
@@ -56,29 +57,18 @@ update msg model =
   case msg of
     Text1 text1 ->
       { model | text1 = text1 }
-
     Text2 text2 ->
       { model | text2 = text2 }
     Result result ->
-      { model | result = result }
+      { model | result = leven model.text1 model.text2 }
 
 
 -- VIEW
 
-
 view : Model -> Html Msg
 view model =
   div []
-    [ viewInput "text1" "Text2" model.text1 Text1
-    , viewInput "text2" "Text2" model.text2 Text2
+    [ input [ value model.text1, onInput Text1 ] []
+    , input [ value model.text2, onInput Text2 ] []
+    , div [] [ text ( String.fromInt model.result)]
     ]
-
-
-viewInput : String -> String -> String -> (String -> msg) -> Html msg
-viewInput t p v toMsg =
-  input [ type_ t, placeholder p, value v, onInput toMsg ] []
-
-
-viewLevenstein : Model -> Html msg
-viewLevenstein model =
-    div [ text "hello" ]
