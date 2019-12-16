@@ -1,1 +1,1 @@
-*.js linguist-documentation=false
+src/* linguist-vendored
