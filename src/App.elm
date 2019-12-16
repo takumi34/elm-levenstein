@@ -52,8 +52,15 @@ type Msg
   | Text2 String
   | Result Int
 
-  -- TODO update
+update msg model =
+  case msg of
+    Text1 text1 ->
+      { model | text1 = text1 }
 
+    Text2 text2 ->
+      { model | text2 = text2 }
+    Result result ->
+      { model | result = result }
 
 
 -- VIEW
