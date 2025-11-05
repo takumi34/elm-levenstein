@@ -1,24 +1,29 @@
 h1 {
-  text-align: center;
+    text-align: center;
 }
 
 div {
-  text-align: center;
+    text-align: center;
 }
+
 textarea {
-  width: 250px;
-  height: 7em;
-  font-size: 20pt;
+    width: 250px;
+    height: 7em;
+    font-size: 20pt;
 }
-div.element{
-  display:inline-flex
-}
-.box1 {
-}
-.box2 {
+
+.element {
+    display: inline-flex;
 }
 
 .result {
-  font-size: 150%;
-  color: red;
+    font-size: 150%;
+    color: red;
+}
+
+.footer {
+    margin-top: 2em;
+    padding: 1em;
+    color: #666;
+    font-size: 0.9em;
 }

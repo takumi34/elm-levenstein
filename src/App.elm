@@ -1,81 +1,87 @@
-module App exposing (..)
+module App exposing (main)
+
 import Browser
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Array exposing (Array)
+import Html exposing (Html, div, footer, h1, text, textarea)
+import Html.Attributes exposing (class, value)
 import Html.Events exposing (onInput)
-import String exposing (..)
-import List exposing (..)
 
 
--- MAIN
-
-
+main : Program () Model Msg
 main =
-  Browser.sandbox { init = init, update = update, view = view }
-
-
-
--- MODEL
+    Browser.sandbox { init = init, update = update, view = view }
 
 
 type alias Model =
-  { text1 : String
-  , text2 : String
-  , result : Int
-  }
+    { text1 : String
+    , text2 : String
+    , result : Int
+    }
 
 
 init : Model
 init =
-  Model "" "" 0
+    Model "" "" 0
 
--- Levenstein
-leven: String -> String -> Int
+leven : String -> String -> Int
 leven s1 s2 =
-    if String.length s1 == 0 then
-            String.length s2
-    else if String.length s2 == 0 then
-            String.length s1
-    else 
-          if right 1 s1 == right 1 s2 then
-            leven (dropRight 1 s1) (dropRight 1 s2) -- 右端の文字が同じなら切り捨て
-          else
-            Maybe.withDefault 0
-            (List.minimum [leven (dropRight 1 s1) s2,
-                  leven s1 (dropRight 1 s2),
-                  leven (dropRight 1 s1) (dropRight 1 s2)]) + 1
+    let
+        a1 = Array.fromList (String.toList s1)
+        a2 = Array.fromList (String.toList s2)
+        m = Array.length a1
+        n = Array.length a2
+    in
+    if m == 0 then
+        n
+    else if n == 0 then
+        m
+    else
+        let
+            process c1 i prev =
+                let
+                    indices = List.range 0 (n - 1)
 
--- UPDATE
+                    calc j ( curr, left, diag ) =
+                        let
+                            c2 = Maybe.withDefault ' ' (Array.get j a2)
+                            top = Maybe.withDefault 0 (Array.get (j + 1) prev)
+                            val = if c1 == c2 then diag else 1 + min left (min top diag)
+                        in
+                        ( Array.set (j + 1) val curr, val, top )
 
+                    ( row, _, _ ) =
+                        List.foldl calc ( Array.set 0 (i + 1) (Array.repeat (n + 1) 0), i + 1, i ) indices
+                in
+                row
+
+            ( _, result ) =
+                Array.foldl (\c ( i, prev ) -> ( i + 1, process c i prev )) ( 0, Array.initialize (n + 1) identity ) a1
+        in
+        Maybe.withDefault 0 (Array.get n result)
 
 type Msg
-  = Text1 String
-  | Text2 String
+    = Text1 String
+    | Text2 String
 
+
+update : Msg -> Model -> Model
 update msg model =
-  case msg of
-    Text1 text1 ->
-      { model | text1 = text1, result = leven model.text1 model.text2  }
-    Text2 text2 ->
-      { model | text2 = text2}
+    case msg of
+        Text1 s ->
+            { model | text1 = s, result = leven s model.text2 }
 
+        Text2 s ->
+            { model | text2 = s, result = leven model.text1 s }
 
--- VIEW
 
 view : Model -> Html Msg
 view model =
-  div []
-    [ h1 [] [text "Levenshtein Distance"],
-      div [class "element"]
-      [
-        div [class "box1"]
-        [
-          textarea [ value model.text1, onInput Text1 ] []
-        ],
-        div [class "box2"]
-        [
-        textarea [ value model.text2, onInput Text2 ] []
+    div []
+        [ h1 [] [ text "Levenshtein Distance" ]
+        , div [ class "element" ]
+            [ div [ class "box1" ] [ textarea [ value model.text1, onInput Text1 ] [] ]
+            , div [ class "box2" ] [ textarea [ value model.text2, onInput Text2 ] [] ]
+            ]
+        , div [ class "result" ] [ text (String.fromInt model.result) ]
+        , footer [ class "footer" ] [ text "made by takumi34" ]
         ]
-      ] 
-    , div [class "result"] [ text (String.fromInt (leven model.text1 model.text2))]
-    ]
