@@ -2,8 +2,8 @@ module App exposing (main)
 
 import Browser
 import Array exposing (Array)
-import Html exposing (Html, div, footer, h1, text, textarea)
-import Html.Attributes exposing (class, value)
+import Html exposing (Html, a, div, footer, h1, p, span, text, textarea)
+import Html.Attributes exposing (class, href, placeholder, target, value)
 import Html.Events exposing (onInput)
 
 
@@ -78,10 +78,17 @@ view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text "Levenshtein Distance" ]
+        , p [ class "subtitle" ] [ text "Calculate the edit distance between two strings" ]
         , div [ class "element" ]
-            [ div [ class "box1" ] [ textarea [ value model.text1, onInput Text1 ] [] ]
-            , div [ class "box2" ] [ textarea [ value model.text2, onInput Text2 ] [] ]
+            [ div [ class "box1" ] [ textarea [ value model.text1, onInput Text1, placeholder "Enter first text..." ] [] ]
+            , div [ class "box2" ] [ textarea [ value model.text2, onInput Text2, placeholder "Enter second text..." ] [] ]
             ]
-        , div [ class "result" ] [ text (String.fromInt model.result) ]
-        , footer [ class "footer" ] [ text "made by takumi34" ]
+        , div [ class "result-container" ]
+            [ div [ class "result-label" ] [ text "Edit Distance" ]
+            , div [ class "result-value" ] [ text (String.fromInt model.result) ]
+            ]
+        , footer [ class "footer" ]
+            [ text "made by "
+            , a [ href "https://github.com/takumi34", target "_blank", class "github-link" ] [ text "takumi34" ]
+            ]
         ]

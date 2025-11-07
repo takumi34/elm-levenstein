@@ -5480,6 +5480,7 @@ var $author$project$App$Text1 = function (a) {
 var $author$project$App$Text2 = function (a) {
 	return {$: 'Text2', a: a};
 };
+var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5492,6 +5493,12 @@ var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$footer = _VirtualDom_node('footer');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
 var $elm$html$Html$Events$alwaysStop = function (x) {
 	return _Utils_Tuple2(x, true);
 };
@@ -5526,6 +5533,9 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$textarea = _VirtualDom_node('textarea');
@@ -5542,6 +5552,16 @@ var $author$project$App$view = function (model) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text('Levenshtein Distance')
+					])),
+				A2(
+				$elm$html$Html$p,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('subtitle')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Calculate the edit distance between two strings')
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -5564,7 +5584,8 @@ var $author$project$App$view = function (model) {
 								_List_fromArray(
 									[
 										$elm$html$Html$Attributes$value(model.text1),
-										$elm$html$Html$Events$onInput($author$project$App$Text1)
+										$elm$html$Html$Events$onInput($author$project$App$Text1),
+										$elm$html$Html$Attributes$placeholder('Enter first text...')
 									]),
 								_List_Nil)
 							])),
@@ -5581,7 +5602,8 @@ var $author$project$App$view = function (model) {
 								_List_fromArray(
 									[
 										$elm$html$Html$Attributes$value(model.text2),
-										$elm$html$Html$Events$onInput($author$project$App$Text2)
+										$elm$html$Html$Events$onInput($author$project$App$Text2),
+										$elm$html$Html$Attributes$placeholder('Enter second text...')
 									]),
 								_List_Nil)
 							]))
@@ -5590,12 +5612,31 @@ var $author$project$App$view = function (model) {
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('result')
+						$elm$html$Html$Attributes$class('result-container')
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(model.result))
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('result-label')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Edit Distance')
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('result-value')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(
+								$elm$core$String$fromInt(model.result))
+							]))
 					])),
 				A2(
 				$elm$html$Html$footer,
@@ -5605,7 +5646,19 @@ var $author$project$App$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('made by takumi34')
+						$elm$html$Html$text('made by '),
+						A2(
+						$elm$html$Html$a,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$href('https://github.com/takumi34'),
+								$elm$html$Html$Attributes$target('_blank'),
+								$elm$html$Html$Attributes$class('github-link')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('takumi34')
+							]))
 					]))
 			]));
 };
