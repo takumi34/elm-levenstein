@@ -1,1 +1,6 @@
-*.js linguist-vendored=true
+# Mark compiled JavaScript as generated code
+*.js linguist-generated=true
+
+# Exclude build artifacts and dependencies
+elm-stuff/* linguist-vendored
+node_modules/* linguist-vendored
